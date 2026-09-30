@@ -1,0 +1,30 @@
+# --- Web framework ---
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.6
+
+# --- Vector store ---
+chromadb>=0.5.5
+
+# --- Embedding / LLM provider clients ---
+openai>=1.51.0
+google-generativeai>=0.8.3
+anthropic>=0.36.0
+
+# --- Document & Image Parsers ---
+pypdf>=5.1.0
+python-docx>=1.1.2
+openpyxl>=3.1.5
+python-pptx>=1.0.1
+Pillow>=10.0.0
+
+# --- Sparse retrieval ---
+rank-bm25>=0.2.2
+
+# --- Local secrets / config encryption ---
+cryptography>=43.0.1
+keyring>=25.4.1
+
+# --- Data models / validation ---
+pydantic>=2.9.2
+
+# Note: sqlite3 is part of the Python standard library and is not installed via pip.

@@ -1,0 +1,47 @@
+# --- Node / Frontend ---
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# --- Rust / Tauri ---
+src-tauri/target/
+src-tauri/Cargo.lock
+src-tauri/gen/
+src-tauri/binaries/*
+!src-tauri/binaries/.gitkeep
+
+# --- Python / Backend ---
+backend/venv/
+backend/.venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/*.pyc
+backend/build/
+backend/dist/
+backend/*.spec
+
+# --- Data / local state (never commit user data) ---
+backend/data/
+backend/chroma_db/
+*.db
+*.sqlite
+*.sqlite3
+chroma_data/
+
+# --- Secrets / local config ---
+backend/config/*.key
+backend/config/secrets.enc
+.env
+.env.*
+!.env.example
+
+# --- Editor / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+*.log
+npm-debug.log*

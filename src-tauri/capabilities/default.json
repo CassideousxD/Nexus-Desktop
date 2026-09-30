@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "identifier": "default",
+  "description": "Capabilities granted to the main Nexus window.",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+
+    "fs:default",
+    "fs:allow-read-file",
+    "fs:allow-read-dir",
+    "fs:allow-exists",
+    "fs:scope-home",
+
+    "dialog:default",
+    "dialog:allow-open",
+
+    "shell:default",
+    "shell:allow-execute",
+    {
+      "identifier": "shell:allow-spawn",
+      "allow": [
+        {
+          "name": "binaries/nexus-backend",
+          "sidecar": true
+        }
+      ]
+    },
+
+    "http:default",
+    {
+      "identifier": "http:allow-fetch",
+      "allow": [{ "url": "http://localhost:*" }]
+    }
+  ]
+}
