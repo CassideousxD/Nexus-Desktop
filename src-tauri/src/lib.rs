@@ -24,6 +24,7 @@ pub fn run() {
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_http::init())
+        .plugin(tauri_plugin_fs::init())
         .manage(backend_state)
         .invoke_handler(tauri::generate_handler![get_backend_port])
         .setup(move |app| {
@@ -85,7 +86,7 @@ pub fn run() {
                         println!("[Rust] Killing backend sidecar child process...");
                         let _ = child.kill();
                     }
-                }
+                };
             }
         })
         .run(tauri::generate_context!())

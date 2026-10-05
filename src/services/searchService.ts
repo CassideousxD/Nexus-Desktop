@@ -22,7 +22,7 @@ export async function searchFiles(query: string): Promise<FileResult[]> {
 
   try {
     const response = await api.search(q, 10);
-    return response.results.map((r, idx) => {
+    return response.results.map((r: { file_path: string; snippet: string; score: number }, idx: number) => {
       const { type, typeLabel, name } = parseFileKind(r.file_path);
       return {
         id: `res-${idx}-${r.file_path}`,

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     "baseUrl": ".",
@@ -23,5 +23,17 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
+  "exclude": [
+    "src/routes/**",
+    "src/router.tsx",
+    "src/server.ts",
+    "src/start.ts",
+    "src/routeTree.gen.ts",
+    "src/lib/lovable-error-reporting.ts",
+    "src/lib/error-page.ts",
+    "src/lib/error-capture.ts",
+    "src/components/ui/**",
+    "pixel-perfect-replica-main/**"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

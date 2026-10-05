@@ -157,7 +157,7 @@ export default function SettingsScreen({ onSettingsSaved }: { onSettingsSaved?: 
               {info.configured_providers.length === 0 ? (
                 <span style={{ fontSize: "13px", color: "var(--text-subtle)" }}>None</span>
               ) : (
-                info.configured_providers.map((p) => (
+                info.configured_providers.map((p: string) => (
                   <span key={p} className="badge badge-indexed">
                     {p}
                   </span>

@@ -42,7 +42,12 @@ def main() -> None:
         sys.exit(1)
 
     print("Step 1: Building PyInstaller executable from nexus-backend.spec...")
-    pyinstaller_cmd = [sys.executable, "-m", "PyInstaller", str(spec_path)]
+    py_executable = sys.executable
+    venv_py = backend_dir / "venv" / ("Scripts" if sys.platform == "win32" else "bin") / ("python.exe" if sys.platform == "win32" else "python")
+    if venv_py.exists():
+        py_executable = str(venv_py)
+
+    pyinstaller_cmd = [py_executable, "-m", "PyInstaller", str(spec_path)]
     try:
         subprocess.run(pyinstaller_cmd, cwd=str(backend_dir), check=True)
     except subprocess.CalledProcessError as exc:
