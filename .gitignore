@@ -20,6 +20,7 @@ backend/*.pyc
 backend/build/
 backend/dist/
 backend/*.spec
+!backend/nexus-backend.spec
 
 # --- Data / local state (never commit user data) ---
 backend/data/
