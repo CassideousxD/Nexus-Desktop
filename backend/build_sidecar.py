@@ -77,8 +77,11 @@ def main() -> None:
         print(f"ERROR: Failed to copy sidecar binary to {target_path}", file=sys.stderr)
         sys.exit(1)
 
-    print(f"\n✅ SUCCESS: Sidecar binary created and placed at:\n{target_path}")
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    print(f"\n[SUCCESS] Sidecar binary created and placed at:\n{target_path}")
 
 
 if __name__ == "__main__":
     main()
+

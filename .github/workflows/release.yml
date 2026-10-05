@@ -44,6 +44,8 @@ jobs:
       - name: Build Python Sidecar (Windows)
         if: matrix.platform == 'windows-latest'
         shell: bash
+        env:
+          PYTHONIOENCODING: 'utf-8'
         run: |
           cd backend
           python -m venv venv
@@ -55,6 +57,8 @@ jobs:
       - name: Build Python Sidecar (macOS)
         if: matrix.platform == 'macos-latest'
         shell: bash
+        env:
+          PYTHONIOENCODING: 'utf-8'
         run: |
           cd backend
           python -m venv venv
