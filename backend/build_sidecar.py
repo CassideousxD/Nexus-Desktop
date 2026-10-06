@@ -42,7 +42,12 @@ def main() -> None:
         sys.exit(1)
 
     print("Step 1: Building PyInstaller executable from nexus-backend.spec...")
-    pyinstaller_cmd = [sys.executable, "-m", "PyInstaller", str(spec_path)]
+    py_executable = sys.executable
+    venv_py = backend_dir / "venv" / ("Scripts" if sys.platform == "win32" else "bin") / ("python.exe" if sys.platform == "win32" else "python")
+    if venv_py.exists():
+        py_executable = str(venv_py)
+
+    pyinstaller_cmd = [py_executable, "-m", "PyInstaller", str(spec_path)]
     try:
         subprocess.run(pyinstaller_cmd, cwd=str(backend_dir), check=True)
     except subprocess.CalledProcessError as exc:
@@ -72,8 +77,11 @@ def main() -> None:
         print(f"ERROR: Failed to copy sidecar binary to {target_path}", file=sys.stderr)
         sys.exit(1)
 
-    print(f"\n✅ SUCCESS: Sidecar binary created and placed at:\n{target_path}")
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    print(f"\n[SUCCESS] Sidecar binary created and placed at:\n{target_path}")
 
 
 if __name__ == "__main__":
     main()
+

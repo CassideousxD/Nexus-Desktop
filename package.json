@@ -5,7 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:desktop": "tauri dev",
     "build": "tsc && vite build",
+    "build:sidecar": "python3 backend/build_sidecar.py",
+    "build:desktop": "npm run build:sidecar && tauri build",
+    "build:mac": "npm run build:sidecar && tauri build --bundles app,dmg",
+    "build:windows": "npm run build:sidecar && tauri build --target x86_64-pc-windows-msvc --bundles nsis",
     "preview": "vite preview",
     "tauri": "tauri"
   },

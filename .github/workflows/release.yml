@@ -1,0 +1,80 @@
+name: Release Nexus Desktop
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'macos-latest'
+            args: '--bundles app,dmg'
+          - platform: 'windows-latest'
+            args: '--bundles nsis'
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Frontend Dependencies
+        run: npm ci
+
+      - name: Build Python Sidecar (Windows)
+        if: matrix.platform == 'windows-latest'
+        shell: bash
+        env:
+          PYTHONIOENCODING: 'utf-8'
+        run: |
+          cd backend
+          python -m venv venv
+          ./venv/Scripts/python -m pip install --upgrade pip
+          ./venv/Scripts/python -m pip install -r requirements.txt -r requirements-dev.txt
+          cd ..
+          python backend/build_sidecar.py
+
+      - name: Build Python Sidecar (macOS)
+        if: matrix.platform == 'macos-latest'
+        shell: bash
+        env:
+          PYTHONIOENCODING: 'utf-8'
+        run: |
+          cd backend
+          python -m venv venv
+          ./venv/bin/python -m pip install --upgrade pip
+          ./venv/bin/python -m pip install -r requirements.txt -r requirements-dev.txt
+          cd ..
+          python3 backend/build_sidecar.py
+
+      - name: Build Desktop Application (Tauri)
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: 'Nexus Desktop ${{ github.ref_name }}'
+          releaseBody: 'See the release assets below for macOS (.dmg) and Windows (Nexus-Setup.exe).'
+          releaseDraft: false
+          prerelease: false
+          args: ${{ matrix.args }}

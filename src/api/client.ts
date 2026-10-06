@@ -12,7 +12,7 @@ import type {
 } from "../types";
 
 let currentPort: number | null = null;
-let resolvePortPromise: ((port: number) => void) | null = null;
+let resolvePortPromise: (port: number) => void;
 const portPromise = new Promise<number>((resolve) => {
   resolvePortPromise = resolve;
 });
@@ -23,7 +23,7 @@ const isTauri = typeof window !== "undefined" && ("__TAURI__" in window || "__TA
 if (!isTauri) {
   // Plain browser dev mode — fallback to default port 8000
   currentPort = 8000;
-  if (resolvePortPromise) resolvePortPromise(8000);
+  resolvePortPromise!(8000);
 } else {
   // Listen for backend-ready event from Tauri Rust sidecar launcher
   listen<number>("backend-ready", (event) => {
